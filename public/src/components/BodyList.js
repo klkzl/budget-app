@@ -6,7 +6,7 @@ import { RemoveButton } from '../styles/Buttons';
 import { ListTitleContainer } from '../styles/Containers';
 import { ListTitle } from '../styles/Titles';
 
-const BodyList = ({ budgetPositions, handleDeleteBudgetPositions, title}) => (
+const BodyList = ({ budgetPositions, handleDeleteSingle, handleDeleteBudgetPositions, title}) => (
     <div>
     <ListTitleContainer>
         <ListTitle>{title}</ListTitle>
@@ -17,10 +17,11 @@ const BodyList = ({ budgetPositions, handleDeleteBudgetPositions, title}) => (
         </DetailsInfo>}
         {budgetPositions.length < 1 && <DetailsInfo>No position to display</DetailsInfo>}
         <div>
-            {budgetPositions.map((position, index) => (
+            {budgetPositions.map(position => (
                 <Position 
-                    key={index}
+                    key={position._id}
                     position={position}
+                    handleDeleteSingle={handleDeleteSingle}
                 />
             ))}
         </div>
