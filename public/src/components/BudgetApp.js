@@ -10,6 +10,8 @@ import { MainContainer, BodyContainer } from '../styles/Containers';
 import theme, { BodyWrapper, DetailsInfo } from '../styles/Styles';
 import { ThemeProvider } from '../../../node_modules/styled-components';
 
+const URL = 'http://localhost:3000';
+
 class BudgetApp extends Component {
     static propTypes = {
         budgetValue: PropTypes.number.isRequired,
@@ -21,7 +23,38 @@ class BudgetApp extends Component {
         budgetExpenses: 0,
         expensesPositions: [], 
         incomePositions: [],
-        transactionsNumber: 0
+        transactionsNumber: 0,
+        downloaded: [],
+    }
+
+    componentDidMount() {
+        fetch(URL)
+            .then(response => {
+                console.log('response', response)
+                return response.json();
+            })
+            .then(json => {
+                console.log(json);
+                this.setState(() => ({
+                    downloaded: json
+                }))
+            })
+            .catch(err => console.log(err));
+    }
+
+    handleDataToDatabase = (e) => {
+        e.preventDefault();
+        const dataToSafe = this.state.incomePositions[0];
+        fetch(URL, {
+            method: 'POST',
+            body: JSON.stringify(dataToSafe),
+            headers: {
+                'Content-Type': 'application/json',
+            }            
+        })
+        .then(response => response.json())
+        .then(parsedData => console.log(parsedData))
+        .catch(err => console.log(err));
     }
 
     handleAddPosition = (e) => {
@@ -115,6 +148,7 @@ class BudgetApp extends Component {
                     <DetailsInfo>
                         Number of Transactions: {this.state.transactionsNumber}
                     </DetailsInfo>
+                    <button onClick={this.handleDataToDatabase}>Save to Database</button>
                 </MainContainer>
             </ThemeProvider>
         );
