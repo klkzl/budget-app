@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Position from './Position';
-import { DetailsInfo, BodyListTitleContainer } from '../styles/Styles';
-import { RemoveButton } from '../styles/Buttons';
+import { DetailsInfo } from '../styles/Styles';
+import { RemoveAllButton } from '../styles/Buttons';
 import { ListTitleContainer } from '../styles/Containers';
 import { ListTitle } from '../styles/Titles';
 
@@ -10,7 +10,7 @@ const BodyList = ({ budgetPositions, handleDeleteSingle, handleDeleteBudgetPosit
     <div>
     <ListTitleContainer>
         <ListTitle>{title}</ListTitle>
-        {budgetPositions.length > 0 && <RemoveButton onClick={handleDeleteBudgetPositions}>Remove All</RemoveButton>}
+        {budgetPositions.length > 0 && <RemoveAllButton onClick={handleDeleteBudgetPositions}>Remove All</RemoveAllButton>}
     </ListTitleContainer>
         {budgetPositions.length > 0 && <DetailsInfo>
             Number of {title} Positions: {budgetPositions.length}

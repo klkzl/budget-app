@@ -4,7 +4,7 @@ import HeaderList from './HeaderList';
 import months from '../constant/months';
 
 import { AppTitle } from '../styles/Titles';
-import { HeaderContainer } from '../styles/Containers';
+import { HeaderContainer, HeaderListContainer } from '../styles/Containers';
 import { HeaderSubtitle, HeaderValue } from '../styles/Headers';
 
 class Header extends Component {
@@ -32,15 +32,20 @@ class Header extends Component {
                 </HeaderSubtitle>
                 <HeaderValue>{budgetValue}</HeaderValue>
 
-                <HeaderList
-                    primary
-                    title="Income" 
-                    budgetPosition={budgetIncome}
-                />
-                <HeaderList 
-                    title="Expenses" 
-                    budgetPosition={budgetExpenses}
-                />
+                <HeaderListContainer primary>
+                    <HeaderList
+                        title="Income" 
+                        budgetPosition={budgetIncome}
+                    />
+                </HeaderListContainer>
+                
+                <HeaderListContainer>
+                    <HeaderList 
+                        title="Expenses" 
+                        budgetPosition={budgetExpenses}
+                    />
+                </HeaderListContainer>
+
             </HeaderContainer>
         );
     }

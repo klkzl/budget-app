@@ -1,17 +1,18 @@
 import React from 'react';
 
-import { PositionStyle } from '../styles/Styles';
+import { RemoveSingleButton } from '../styles/Buttons';
+import { PositionContainer } from '../styles/Containers';
 
 const Position = ({ position, handleDeleteSingle }) => (
-    <PositionStyle>
+    <PositionContainer>
         <p>{position.positionName}</p>
         <p>{position.positionDisplay}</p>
-        <button onClick={() => {
+        <RemoveSingleButton onClick={() => {
             handleDeleteSingle(position._id)}}
         >
-            del
-        </button>
-    </PositionStyle>
+            x
+        </RemoveSingleButton>
+    </PositionContainer>
 );
 
 export default Position;

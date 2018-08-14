@@ -15,7 +15,7 @@ const AddButton = Button.extend`
     width: ${props => props.theme.basicSize * 3.5}px;
 `;
 
-const RemoveButton = Button.extend`
+const RemoveAllButton = Button.extend`
     height: 25px;
     font-size:  ${props => props.theme.fontSize * 1.2}px;
     position: absolute;
@@ -24,4 +24,13 @@ const RemoveButton = Button.extend`
     width: ${props => props.theme.basicSize * 2.5}px;
 `;
 
-export {AddButton, RemoveButton };
+const RemoveSingleButton = Button.extend`
+    border-radius: 15px;
+    font-size: ${props => props.theme.fontSize}px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+`;
+
+export {AddButton, RemoveAllButton, RemoveSingleButton };

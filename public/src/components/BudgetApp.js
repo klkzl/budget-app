@@ -6,8 +6,8 @@ import AddPosition from './AddPosition';
 import BodyList from './BodyList';
 import Header from './Header';
 
-import { MainContainer, BodyContainer } from '../styles/Containers';
-import theme, { BodyWrapper, DetailsInfo } from '../styles/Styles';
+import theme from '../styles/Styles';
+import { MainContainer, BodyContainer, DetailsContainer } from '../styles/Containers';
 import { ThemeProvider } from '../../../node_modules/styled-components';
 
 const URL = 'http://localhost:3000';
@@ -187,10 +187,9 @@ class BudgetApp extends Component {
                         />
                     </BodyContainer>
 
-                    <DetailsInfo>
+                    <DetailsContainer>
                         Number of Transactions: {this.state.transactionsNumber}
-                    </DetailsInfo>
-                    <button onClick={this.handleDataToDatabase}>Save to Database</button>
+                    </DetailsContainer>
                 </MainContainer>
             </ThemeProvider>
         );

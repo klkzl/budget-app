@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HeaderListStyle } from '../styles/Styles';
+import { HeaderListStyle } from '../styles/Containers';
 
 const HeaderList = ({ title, budgetPosition }) => (
     <HeaderListStyle>
