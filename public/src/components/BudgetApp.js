@@ -13,14 +13,17 @@ import { ThemeProvider } from '../../../node_modules/styled-components';
 const URL = 'http://localhost:3000';
 
 class BudgetApp extends Component {
-    static propTypes = {
-        budgetValue: PropTypes.number.isRequired,
-    }
+    // static propTypes = {
+    //     budgetIncome: PropTypes.number.isRequired,
+    //     budgetExpenses: PropTypes.number.isRequired,
+    //     budgetValue: PropTypes.number.isRequired,
+    //     transactionsNumber: PropTypes.number.isRequired,
+    // }
 
     state = {        
-        budgetValue: 0,
         budgetIncome: 0,
         budgetExpenses: 0,
+        budgetValue: 0,
         expensesPositions: [], 
         incomePositions: [],
         transactionsNumber: 0,
@@ -29,6 +32,62 @@ class BudgetApp extends Component {
 
     componentDidMount() {
         this.fetchData();
+    }
+
+    fetchData() {
+        this.fetchIncomes();
+        this.fetchExpenses();
+    }
+
+    updateData() {
+        this.setState(() => ({
+            transactionsNumber: this.state.incomePositions.length + this.state.expensesPositions.length,
+            budgetValue: this.state.budgetIncome + this.state.budgetExpenses
+        }));
+    }
+
+    fetchIncomes() {
+        fetch(URL + '/incomes')
+        .then(response => {
+            // console.log('response', response);
+            return response.json();
+        })
+        .then(json => {
+            // console.log(json);
+            this.setState(() => ({
+                incomePositions: json,
+                budgetIncome: 0
+            }));
+            for (let i = 0; i < json.length; i++) {
+                this.setState((prevState) => ({
+                    budgetIncome: prevState.budgetIncome + json[i].positionValue
+                }))
+            }
+            this.updateData();
+        })
+        .catch(err => console.log(err));
+    }
+
+    fetchExpenses() {
+        fetch(URL + '/expenses')
+        .then(response => {
+            // console.log('response', response);
+            return response.json();
+        })
+        .then(json => {
+            // console.log(json);
+            this.setState(() => ({
+                expensesPositions: json,
+                budgetExpenses: 0
+            }));
+            for (let i = 0; i < json.length; i++) {
+                this.setState((prevState) => ({
+                    budgetExpenses: prevState.budgetExpenses - json[i].positionValue
+                }))
+            }
+            this.updateData();
+        })
+        .catch(err => console.log(err));
     }
 
     addPosition(dataToSafe) {
@@ -43,45 +102,32 @@ class BudgetApp extends Component {
         .catch(err => console.log(err));
     }
 
-    fetchData() {
-        this.fetchIncomes();
-        this.fetchExpenses();
-    }
-
-    fetchIncomes() {
-        fetch(URL + '/incomes')
-        .then(response => {
-            console.log('response', response)
-            return response.json();
-        })
-        .then(json => {
-            console.log(json);
-            this.setState(() => ({
-                incomePositions: json
-            }))
-        })
-        .catch(err => console.log(err));
-    }
-
-    fetchExpenses() {
-        fetch(URL + '/expenses')
-        .then(response => {
-            console.log('response', response)
-            return response.json();
-        })
-        .then(json => {
-            console.log(json);
-            this.setState(() => ({
-                expensesPositions: json
-            }))
-        })
-        .catch(err => console.log(err));
-    }
-
     handleDataToDatabase = (e) => {
         e.preventDefault();
         const dataToSafe = this.state.incomePositions[0];
         this.addPosition(dataToSafe);
+    }
+
+    handleDeleteSingle = (id) => {
+        const DeleteURL = URL + '/' + id;
+        fetch(DeleteURL, {
+            method: 'DELETE',         
+        })
+        .then(() => {
+           this.fetchData();
+        })
+        .catch(err => console.log(err));
+    }
+
+    deleteExpenses = () => {
+        fetch(URL + '/expenses', {
+            method: 'DELETE',
+        })
+        .then(() => {
+            this.fetchData();
+            console.log('cos sie stalo')
+        })
+        .catch(err => console.log(err));
     }
 
     handleAddPosition = (e) => {
@@ -94,38 +140,31 @@ class BudgetApp extends Component {
             positionDisplay: ''
         }
 
-        if (!position.positionName || !position.positionValue) {
-            return 'Enter valid value';
-        }
-
         if (position.positionSign === 'inc') {
-            position.positionDisplay = `+ ${numeral(position.positionValue).format('0,000.00')}`
-        } else {
-            position.positionDisplay = `- ${numeral(position.positionValue).format('0,000.00')}`
-        }
+            position.positionDisplay = `+ ${numeral(position.positionValue).format('0,000.00')}`;
 
-        // if (position.positionSign === 'inc') {
-        //     this.setState(prevState => ({
-        //         incomePositions: prevState.incomePositions.concat(position),
-        //         budgetIncome: prevState.budgetIncome + position.positionValue,
-        //         budgetValue: prevState.budgetValue + position.positionValue
-        //     }))
-        // } else {
-        //     this.setState(prevState => ({
-        //         expensesPositions: prevState.expensesPositions.concat(position),
-        //         budgetExpenses: prevState.budgetExpenses - position.positionValue,
-        //         budgetValue: prevState.budgetValue - position.positionValue
-        //     }))
-        // }
+            this.setState(prevState => ({
+                incomePositions: prevState.incomePositions.concat(position),
+                budgetIncome: prevState.budgetIncome + position.positionValue,
+                budgetValue: prevState.budgetValue + position.positionValue
+            }))
+        } else {
+            position.positionDisplay = `- ${numeral(position.positionValue).format('0,000.00')}`;
+
+            this.setState(prevState => ({
+                expensesPositions: prevState.expensesPositions.concat(position),
+                budgetExpenses: prevState.budgetExpenses - position.positionValue,
+                budgetValue: prevState.budgetValue - position.positionValue
+            }))
+        }
 
         console.log(position);
 
-        // this.setState(prevState => ({
-        //     transactionsNumber: prevState.transactionsNumber + 1
-        // }))
+        this.setState(prevState => ({
+            transactionsNumber: prevState.transactionsNumber + 1
+        }))
 
         this.addPosition(position); 
-
     }
 
     handleDeleteIncomePositions = () => {
@@ -144,28 +183,23 @@ class BudgetApp extends Component {
             expensesPositions: [], 
             transactionsNumber: prevState.incomePositions.length 
         }));
-    }
 
-    handleDeleteSingle = (id) => {
-        const DeleteURL = URL + '/' + id;
-        fetch(DeleteURL, {
-            method: 'DELETE',         
-        })
-        .then(() => {
-           this.fetchData();
-        })
-        .catch(err => console.log(err));
+        this.deleteExpenses();
     }
 
     render() {
-        
+        const { budgetExpenses, budgetIncome, budgetValue, incomePositions, expensesPositions, transactionsNumber} = this.state;
+        const displayBudget = numeral(budgetValue).format('+/-0,000.00');
+        const displayIncome = numeral(budgetIncome).format('+/-0,000.00');
+        const displayExpenses = numeral(budgetExpenses).format('+/-0,000.00');
+
         return (
             <ThemeProvider theme={theme}>
                 <MainContainer>
                     <Header 
-                        budgetExpenses={this.state.budgetExpenses}
-                        budgetIncome={this.state.budgetIncome}
-                        budgetValue={this.state.budgetValue}
+                        budgetExpenses={displayExpenses}
+                        budgetIncome={displayIncome}
+                        budgetValue={displayBudget}
                     />
 
                     <AddPosition
@@ -174,21 +208,21 @@ class BudgetApp extends Component {
                     <BodyContainer>
                         <BodyList
                             title="Income"
-                            budgetPositions={this.state.incomePositions}
+                            budgetPositions={incomePositions}
                             handleDeleteSingle={this.handleDeleteSingle}
                             handleDeleteBudgetPositions={this.handleDeleteIncomePositions}
                         />
                         
                         <BodyList
                             title="Expenses"
-                            budgetPositions={this.state.expensesPositions}
+                            budgetPositions={expensesPositions}
                             handleDeleteSingle={this.handleDeleteSingle}
                             handleDeleteBudgetPositions={this.handleDeleteExpensesPositions}
                         />
                     </BodyContainer>
 
                     <DetailsContainer>
-                        Number of Transactions: {this.state.transactionsNumber}
+                        Number of Transactions: {transactionsNumber}
                     </DetailsContainer>
                 </MainContainer>
             </ThemeProvider>
@@ -197,8 +231,8 @@ class BudgetApp extends Component {
 }
 
 // ?
-BudgetApp.propTypes = {
-    budgetIncome: PropTypes.number
-}
+// BudgetApp.propTypes = {
+//     budgetIncome: PropTypes.number
+// }
 
 export default BudgetApp;

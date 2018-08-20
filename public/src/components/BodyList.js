@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Position from './Position';
-import { DetailsInfo } from '../styles/Styles';
 import { RemoveAllButton } from '../styles/Buttons';
-import { ListTitleContainer } from '../styles/Containers';
+import { DetailsContainer, ListTitleContainer } from '../styles/Containers';
 import { ListTitle } from '../styles/Titles';
 
 const BodyList = ({ budgetPositions, handleDeleteSingle, handleDeleteBudgetPositions, title}) => (
@@ -12,10 +11,10 @@ const BodyList = ({ budgetPositions, handleDeleteSingle, handleDeleteBudgetPosit
         <ListTitle>{title}</ListTitle>
         {budgetPositions.length > 0 && <RemoveAllButton onClick={handleDeleteBudgetPositions}>Remove All</RemoveAllButton>}
     </ListTitleContainer>
-        {budgetPositions.length > 0 && <DetailsInfo>
+        {budgetPositions.length > 0 && <DetailsContainer>
             Number of {title} Positions: {budgetPositions.length}
-        </DetailsInfo>}
-        {budgetPositions.length < 1 && <DetailsInfo>No position to display</DetailsInfo>}
+        </DetailsContainer>}
+        {budgetPositions.length < 1 && <DetailsContainer>No position to display</DetailsContainer>}
         <div>
             {budgetPositions.map(position => (
                 <Position 

@@ -17,10 +17,4 @@ const theme = {
 
 }; 
 
-const DetailsInfo = styled.div`
-    font-size: 12px;
-    margin: 10px 5px;
-`;
-
 export default theme;
-export { DetailsInfo };

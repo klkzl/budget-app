@@ -6,7 +6,10 @@ import { Input, Select } from '../styles/Inputs';
 
 const AddPosition = (props) => (
     <AddContainer>
-        <form onSubmit={props.handleAddPosition}>
+        <form
+            autoComplete="off"
+            onSubmit={props.handleAddPosition} 
+        >
             <Select name="positionSign">
                 <option value="inc" defaultChecked>+</option>
                 <option value="exp">-</option>
@@ -15,6 +18,7 @@ const AddPosition = (props) => (
                 type="text" 
                 name="positionName" 
                 placeholder="Add description"
+                required
             />
             <Input 
                 max="100000"
@@ -23,6 +27,7 @@ const AddPosition = (props) => (
                 placeholder="Value" 
                 step="0.01"
                 type="number" 
+                required
             />
             <AddButton>Add Position</AddButton>
         </form>

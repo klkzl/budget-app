@@ -10,6 +10,12 @@ const Select = styled.select`
     margin-right: 10px;
     padding: ${props => props.theme.basicSize / 6}px;
     width: ${props => props.theme.basicSize * 2}px;
+
+    &:focus {
+        border: 1px solid ${props => props.theme.mediumBlue};
+        background-color: white;
+        outline: none;
+    }
 `;
 
 const Input = styled.input`
@@ -22,6 +28,12 @@ const Input = styled.input`
     margin-right: 10px;
     padding: ${props => props.theme.basicSize / 6}px;
     width: ${props => props.step ? '120px' : '240px'};
+
+    &:focus {
+        border: 1px solid ${props => props.theme.mediumBlue};
+        background-color: white;
+        outline: none;
+    }
 `;
 
 export { Select, Input };

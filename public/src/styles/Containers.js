@@ -13,6 +13,7 @@ const HeaderContainer = styled.div`
 
 const HeaderListContainer = styled.div`
     background-color: ${props => props.primary ? '#3d848a' : '#e65e68' };
+    letter-spacing: 1px;
     margin: 0 auto;
     width: ${props => props.theme.basicSize * 12}px;
 `;
