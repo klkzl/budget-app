@@ -51,13 +51,6 @@ class BudgetApp extends Component {
                 incomePositions: json,
                 budgetIncome
             }));
-            // console.log(json);
-            // for (let i = 0; i < json.length; i++) {
-            //     this.setState((prevState) => ({
-            //         budgetIncome: prevState.budgetIncome + json[i].positionValue
-            //     }))
-            // }
-            // console.log(budgetIncome);
             this.updateData();
         })
         .catch(err => console.log(err));
@@ -138,6 +131,7 @@ class BudgetApp extends Component {
             positionValue: Number(elements.positionValue.value),
             positionDisplay: ''
         }
+        console.log(position);
 
         if (position.positionSign === 'inc') {
             position.positionDisplay = `+ ${numeral(position.positionValue).format('0,000.00')}`;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Position from './Position';
 import { RemoveAllButton } from '../styles/Buttons';
@@ -17,7 +18,7 @@ const BodyList = ({ budgetPositions, handleDeleteSingle, handleDeleteBudgetPosit
         {budgetPositions.length < 1 && <DetailsContainer>No position to display</DetailsContainer>}
         <div>
             {budgetPositions.map(position => (
-                <Position 
+                <Position
                     key={position._id}
                     position={position}
                     handleDeleteSingle={handleDeleteSingle}
@@ -26,5 +27,19 @@ const BodyList = ({ budgetPositions, handleDeleteSingle, handleDeleteBudgetPosit
         </div>
     </div>
     );
+
+    BodyList.propTypes = {
+        budgetPositions: PropTypes.arrayOf(
+            PropTypes.shape({
+                positionSign: PropTypes.string.isRequired,
+                positionName: PropTypes.string.isRequired,
+                positionValue: PropTypes.number.isRequired,
+                positionDisplay: PropTypes.string.isRequired
+            }).isRequired
+        ).isRequired,
+        handleDeleteSingle: PropTypes.func.isRequired,
+        handleDeleteBudgetPositions: PropTypes.func.isRequired,
+        title: PropTypes.string.isRequired
+    }
 
 export default BodyList;

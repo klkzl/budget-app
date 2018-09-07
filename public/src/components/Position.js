@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { RemoveSingleButton } from '../styles/Buttons';
 import { PositionContainer } from '../styles/Containers';
@@ -14,5 +15,17 @@ const Position = ({ position, handleDeleteSingle }) => (
         </RemoveSingleButton>
     </PositionContainer>
 );
+
+Position.propTypes = {
+    position: PropTypes.arrayOf(
+        PropTypes.shape({
+            positionSign: PropTypes.string.isRequired,
+            positionName: PropTypes.string.isRequired,
+            positionValue: PropTypes.number.isRequired,
+            positionDisplay: PropTypes.string.isRequired
+        }).isRequired
+    ).isRequired,
+    handleDeleteSingle: PropTypes.func.isRequired
+}
 
 export default Position;

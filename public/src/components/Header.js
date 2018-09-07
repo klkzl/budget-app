@@ -1,4 +1,5 @@
 import React, { Component } from 'react' ;
+import PropTypes from 'prop-types';
 
 import HeaderList from './HeaderList';
 import months from '../constant/months';
@@ -34,14 +35,14 @@ class Header extends Component {
 
                 <HeaderListContainer primary>
                     <HeaderList
-                        title="Income" 
+                        title="Income"
                         budgetPosition={budgetIncome}
                     />
                 </HeaderListContainer>
-                
+
                 <HeaderListContainer>
-                    <HeaderList 
-                        title="Expenses" 
+                    <HeaderList
+                        title="Expenses"
                         budgetPosition={budgetExpenses}
                     />
                 </HeaderListContainer>
@@ -49,11 +50,17 @@ class Header extends Component {
             </HeaderContainer>
         );
     }
-} 
+}
 
 Header.defaultProps = {
     title: 'Budget App',
     subtitle: 'Available budget in '
 };
+
+Header.propTypes = {
+    budgetExpenses: PropTypes.string.isRequired,
+    budgetIncome: PropTypes.string.isRequired,
+    budgetValue: PropTypes.string.isRequired
+}
 
 export default Header;
