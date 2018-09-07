@@ -4,7 +4,7 @@ const path = require('path');
 module.exports ={
     entry: './public/src/app.js',
     output: {
-        path: path.join(__dirname, 'public'), 
+        path: path.join(__dirname, 'public'),
         filename: 'bundle.js'
     },
     module: {
@@ -19,5 +19,5 @@ module.exports ={
                 'css-loader',
             ]
         }]
-    } 
+    }
 };
